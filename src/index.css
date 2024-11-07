@@ -1,0 +1,38 @@
+/* Hover effect for the navigation buttons */
+.btn-hover:hover {
+    background-color: #0056b3; /* Darker blue shade */
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Optional: For mobile-friendly and consistent button styles */
+  @media (max-width: 767px) {
+    .navbar-nav {
+      text-align: right;  /* Aligns the navbar items to the right on mobile */
+    }
+  
+    .nav-item {
+      margin-right: 0 !important;  /* Ensures spacing is uniform on mobile */
+    }
+  }
+  @media (max-width: 768px) {
+    .hidden-mobile {
+        display: none;
+    }
+
+    .MuiTableCell-root {
+        padding: 8px;  /* Reduce padding for better fit */
+    }
+
+    .MuiTablePagination-root {
+        font-size: 0.875rem;  /* Adjust font size for pagination */
+    }
+
+    .MuiAvatar-root {
+        font-size: 2rem;  /* Make avatar text smaller */
+    }
+
+    .MuiTableCell-root img {
+        width: 30px;  /* Make profile image smaller on mobile */
+        height: 30px;
+    }
+}
