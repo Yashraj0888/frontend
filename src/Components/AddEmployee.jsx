@@ -23,6 +23,7 @@ const AddEmployee = ({ showModal, setShowModal, fetchEmployees, updateEmpObject 
         if (updateEmpObject) {
             setUpdateMode(true);
             setEmployee(updateEmpObject);
+            console.log('Updating employee gender:', updateEmpObject.gender); // Debugging line
         } else {
             setUpdateMode(false);
             resetEmployeeStates();
@@ -50,7 +51,15 @@ const AddEmployee = ({ showModal, setShowModal, fetchEmployees, updateEmpObject 
 
     // Handle file input change
     const handleFileChange = (e) => {
-        setEmployee((prevEmployee) => ({ ...prevEmployee, profileImage: e.target.files[0] }));
+        const file = e.target.files[0];
+
+        // Validate file type (only allow .jpg and .png)
+        if (file && (file.type === 'image/jpeg' || file.type === 'image/png')) {
+            setEmployee((prevEmployee) => ({ ...prevEmployee, profileImage: file }));
+        } else {
+            notify('Please upload a valid image (JPG or PNG)', 'error');
+            setEmployee((prevEmployee) => ({ ...prevEmployee, profileImage: null }));  // Clear the file input
+        }
     };
 
     const handleCloseButton = () => {
@@ -96,8 +105,6 @@ const AddEmployee = ({ showModal, setShowModal, fetchEmployees, updateEmpObject 
                 setShowModal(true);
             }
 
-           
-            
             fetchEmployees();
             setUpdateMode(false);
         } catch (err) {
@@ -278,10 +285,9 @@ const AddEmployee = ({ showModal, setShowModal, fetchEmployees, updateEmpObject 
                                     type="submit"
                                     variant="contained"
                                     color="primary"
-             // Add icon on the button
                                     style={{ padding: '5px' }}
                                 >
-                                    {updateMode ? 'Update use' : 'Create new'} {/* Button text change */}
+                                    {updateMode ? 'Update Employee' : 'Create New Employee'}
                                 </Button>
                             </Box>
                         </form>

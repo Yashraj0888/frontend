@@ -31,7 +31,7 @@ import {
   Brightness4 as Brightness4Icon,
   Brightness7 as Brightness7Icon
 } from '@mui/icons-material';
-import { GetEmployeeDetailsById } from '../api';
+import { deleteEmployeeById, GetEmployeeDetailsById } from '../api';
 
 // Styled components for enhanced visual appeal
 const StyledCard = styled(Card)(({ theme }) => ({
@@ -129,10 +129,21 @@ const EmployeeDetails = ({ toggleColorMode }) => {
     navigate(`/edit-employee/${employee.id}`);
   };
 
-  const handleDelete = () => {
-    // Add delete confirmation dialog here
-    console.log("Delete employee", employee.id);
-  };
+  const handleDeleteEmployee = async (emp) => {
+    try {
+        const { success } = await deleteEmployeeById(emp._id);
+        if (success) {
+            notify('Deleted successfully', 'success');
+            fetchEmployees();
+        } else {
+            notify('Error deleting employee', 'error');
+        }
+    } catch (err) {
+        console.error('Error deleting employee:', err);
+        notify('Failed to delete Employee', 'error');
+    }
+};
+
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
@@ -209,7 +220,7 @@ const EmployeeDetails = ({ toggleColorMode }) => {
                 <ActionButton
                   variant="contained"
                   color="error"
-                  onClick={handleDelete}
+                  onClick={handleDeleteEmployee(employee)}
                   startIcon={<DeleteIcon />}
                 >
                   Delete

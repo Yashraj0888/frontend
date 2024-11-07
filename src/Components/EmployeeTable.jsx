@@ -37,16 +37,26 @@ const EmployeeTable = ({ employees, pagination, handleUpdateEmployee, handleDele
             const sortedData = [...employees].sort((a, b) => {
                 const aValue = a[orderBy];
                 const bValue = b[orderBy];
+
+                // Handle date sorting
                 if (orderBy === 'createdAt' || orderBy === 'updatedAt') {
-                    return orderDirection === 'asc' ? new Date(aValue) - new Date(bValue) : new Date(bValue) - new Date(aValue);
+                    const dateA = new Date(aValue);
+                    const dateB = new Date(bValue);
+                    return orderDirection === 'asc' ? dateA - dateB : dateB - dateA;
                 }
+
+                // Handle string sorting
                 if (typeof aValue === 'string' && typeof bValue === 'string') {
                     return orderDirection === 'asc' ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
                 }
+
+                // Handle number sorting
                 return orderDirection === 'asc' ? aValue - bValue : bValue - aValue;
             });
+
             setSortedEmployees(sortedData);
         };
+
         sortEmployees();
     }, [employees, orderBy, orderDirection]);
 
@@ -90,7 +100,6 @@ const EmployeeTable = ({ employees, pagination, handleUpdateEmployee, handleDele
                 height: '60px'
             }}
         >
-       
             <TableCell sx={{ padding: '4px 8px', width: header[0].width }}>{index + 1}</TableCell>
             <TableCell sx={{ padding: '4px 8px', width: header[1].width }}>
                 <Link to={`/employee/${employee._id}`}>
@@ -218,52 +227,44 @@ const EmployeeTable = ({ employees, pagination, handleUpdateEmployee, handleDele
                 <Table stickyHeader size="small">
                     <TableHead>
                         <TableRow>
-                            {header.map((head) => (
-                                <TableCell 
-                                    key={head.id}
+                            {header.map((headCell) => (
+                                <TableCell
+                                    key={headCell.id}
                                     sx={{
-                                        padding: '8px',
-                                        backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : theme.palette.grey[100],
-                                        width: head.width,
-                                        whiteSpace: 'nowrap'
+                                        width: headCell.width,
+                                        fontWeight: 'bold',
+                                        textAlign: 'center',
+                                        cursor: 'pointer',
+                                        backgroundColor: theme.palette.grey[200],
                                     }}
                                 >
-                                    {head.id !== 'actions' && head.id !== 'profileImage' ? (
-                                        <TableSortLabel
-                                            active={orderBy === head.id}
-                                            direction={orderBy === head.id ? orderDirection : 'asc'}
-                                            onClick={() => handleSortRequest(head.id)}
-                                        >
-                                            {head.label}
-                                        </TableSortLabel>
-                                    ) : (
-                                        head.label
-                                    )}
+                                    <TableSortLabel
+                                        active={orderBy === headCell.id}
+                                        direction={orderBy === headCell.id ? orderDirection : 'asc'}
+                                        onClick={() => handleSortRequest(headCell.id)}
+                                    >
+                                        {headCell.label}
+                                    </TableSortLabel>
                                 </TableCell>
                             ))}
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {currentEmployees.map((employee, index) => (
-                            <TableRowComponent employee={employee} index={index} key={employee._id} />
+                            <TableRowComponent employee={employee} index={index} />
                         ))}
                     </TableBody>
                 </Table>
             </TableContainer>
 
             <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
                 component="div"
                 count={employees.length}
-                page={currentPage - 1}
-                onPageChange={(event, page) => handlePagination(page + 1)}
                 rowsPerPage={5}
-                rowsPerPageOptions={[5]}
-                onRowsPerPageChange={() => {}}
-                sx={{ 
-                    borderTop: `1px solid ${theme.palette.divider}`,
-                    '.MuiTablePagination-select': { display: 'none' },
-                    '.MuiTablePagination-selectLabel': { display: 'none' },
-                }}
+                page={currentPage - 1}
+                onPageChange={(event, newPage) => handlePagination(newPage + 1)}
+                onRowsPerPageChange={(event) => handlePagination(1, event.target.value)}
             />
         </Box>
     );
