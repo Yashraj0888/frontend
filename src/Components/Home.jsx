@@ -28,7 +28,8 @@ import {
   DarkMode as DarkModeIcon
 } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
-import { useDarkMode } from '../Components/DarkmodeContext';
+import { useDarkMode } from './DarkModeContext';
+
 
 // Styled components
 const StyledCard = styled(Card)(({ theme }) => ({
