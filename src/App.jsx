@@ -12,7 +12,8 @@ import EmpoloyeeManagmantApp from './Components/EmpoloyeeManagmantApp';
 import Login from './Components/Login';
 import Home from './Components/Home';
 import PrivateRoute from './Components/PrivateRoute';
-import { DarkModeProvider, useDarkMode } from './Components/DarkmodeContext';
+import { DarkModeProvider, useDarkMode } from './Components/DarkModeContext';
+
 
 const AppContent = () => {
   const { darkMode, toggleDarkMode } = useDarkMode();
