@@ -9,16 +9,14 @@
         }
       }
     ],
-    "routes": [
-      {
-        "src": "/(.*)",
-        "dest": "/index.html"
-      }
-    ],
     "rewrites": [
       {
-        "source": "/api/(.*)", 
+        "source": "/api/(.*)",
         "destination": "https://your-backend-url.vercel.app/api/$1"
+      },
+      {
+        "source": "/(.*)",
+        "destination": "/index.html"
       }
     ]
   }
