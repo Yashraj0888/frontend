@@ -14,7 +14,7 @@ import { AccountCircle, Lock, Visibility, VisibilityOff } from '@mui/icons-mater
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; // Import the Toastify styles
 
-const BASE_URL = 'http://localhost:8080'; // Replace with your backend URL
+const BASE_URL = 'https://backend-six-mu-25.vercel.app'; // Replace with your backend URL
 
 const Login = () => {
   const [username, setUsername] = useState('');

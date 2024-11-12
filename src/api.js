@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:8080'
+const BASE_URL = 'https://backend-six-mu-25.vercel.app'
 
 export const GetAllEmployees= async (search='',page=1, limit=5)=>{
     const url = `${BASE_URL}/api/employee?search=${search}&page=${page}&limit=${limit}`
